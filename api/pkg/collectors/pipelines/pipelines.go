@@ -9,42 +9,42 @@ import (
 
 type PerfPipelineRunsCollector struct {
 	SuccessfulPipelineRunsCreationCounter prometheus.Counter
-	FailedPipelineRunsCreationCounter  prometheus.Counter
-	PipelineRunsCreationTimeGauge        prometheus.Gauge
-	ActualPipelineRunsCreationTimeGauge  prometheus.Gauge
-	PipelineRunsTimeGauge				 prometheus.Gauge
-	ActualPipelineRunsTimeGauge			 prometheus.Gauge
+	FailedPipelineRunsCreationCounter     prometheus.Counter
+	PipelineRunsCreationTimeGauge         prometheus.Gauge
+	ActualPipelineRunsCreationTimeGauge   prometheus.Gauge
+	PipelineRunsTimeGauge                 prometheus.Gauge
+	ActualPipelineRunsTimeGauge           prometheus.Gauge
 }
 
 var (
 	SuccessfulPipelineRunsCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_successful_pipelineruns_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "successful_pipelineruns_creations",
 		Help:      "this is the total no of successful PipelineRuns created during this test ",
 	})
 	FailedPipelineRunsCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_failed_pipelineruns_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "failed_pipelineruns_creations",
 		Help:      "this is the total no of failed PipelineRuns created during this test ",
 	})
 	PipelineRunsCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_pipelineruns_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "pipelineruns_creation_time",
 		Help:      "PipelineRuns creation time",
 	})
 	ActualPipelineRunsCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_actual_pipelineruns_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "actual_pipelineruns_creation_time",
 		Help:      "Actual PipelineRuns creation time ",
 	})
 	PipelineRunsTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_pipelinerun_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "pipelinerun_time",
 		Help:      "PipelineRuns time",
 	})
 	ActualPipelineRunsTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_actual_pipelineruns_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "actual_pipelineruns_time",
 		Help:      "Actual PipelineRuns time ",
 	})
 )
@@ -52,51 +52,51 @@ var (
 func NewPerfPipelineRunsCollector() *PerfPipelineRunsCollector {
 	return &PerfPipelineRunsCollector{
 		SuccessfulPipelineRunsCreationCounter: SuccessfulPipelineRunsCreationCounter,
-		FailedPipelineRunsCreationCounter: FailedPipelineRunsCreationCounter,
-		PipelineRunsCreationTimeGauge: PipelineRunsCreationTimeGauge,
-		ActualPipelineRunsCreationTimeGauge: ActualPipelineRunsCreationTimeGauge,
-		PipelineRunsTimeGauge: PipelineRunsTimeGauge,
-		ActualPipelineRunsTimeGauge: ActualPipelineRunsTimeGauge,
+		FailedPipelineRunsCreationCounter:     FailedPipelineRunsCreationCounter,
+		PipelineRunsCreationTimeGauge:         PipelineRunsCreationTimeGauge,
+		ActualPipelineRunsCreationTimeGauge:   ActualPipelineRunsCreationTimeGauge,
+		PipelineRunsTimeGauge:                 PipelineRunsTimeGauge,
+		ActualPipelineRunsTimeGauge:           ActualPipelineRunsTimeGauge,
 	}
 }
 
 func (P *PerfPipelineRunsCollector) GetCollectors() []prometheus.Collector {
 	var result []prometheus.Collector
 	result = append(result, P.FailedPipelineRunsCreationCounter,
-		 P.SuccessfulPipelineRunsCreationCounter,
-		 P.PipelineRunsCreationTimeGauge,
-		 P.ActualPipelineRunsCreationTimeGauge,
-		 P.PipelineRunsTimeGauge,
-		 P.ActualPipelineRunsTimeGauge)
+		P.SuccessfulPipelineRunsCreationCounter,
+		P.PipelineRunsCreationTimeGauge,
+		P.ActualPipelineRunsCreationTimeGauge,
+		P.PipelineRunsTimeGauge,
+		P.ActualPipelineRunsTimeGauge)
 	return result
 }
 
-func (P *PerfPipelineRunsCollector) IncSuccessfulPipelineRunsCreationCounter(){
+func (P *PerfPipelineRunsCollector) IncSuccessfulPipelineRunsCreationCounter() {
 	P.SuccessfulPipelineRunsCreationCounter.Inc()
 }
 
-func (P *PerfPipelineRunsCollector) IncFailedPipelineRunsCreationCounter(){
+func (P *PerfPipelineRunsCollector) IncFailedPipelineRunsCreationCounter() {
 	P.FailedPipelineRunsCreationCounter.Inc()
 }
 
-func (P *PerfPipelineRunsCollector) SetPipelineRunsCreationTimeGauge(value float64){
+func (P *PerfPipelineRunsCollector) SetPipelineRunsCreationTimeGauge(value float64) {
 	P.PipelineRunsCreationTimeGauge.Set(value)
 }
-func (P *PerfPipelineRunsCollector) SetActualPipelineRunsCreationTimeGauge(value float64){
+func (P *PerfPipelineRunsCollector) SetActualPipelineRunsCreationTimeGauge(value float64) {
 	P.ActualPipelineRunsCreationTimeGauge.Set(value)
 }
 
-func (P *PerfPipelineRunsCollector) SetPipelineRunsTimeGauge(value float64){
+func (P *PerfPipelineRunsCollector) SetPipelineRunsTimeGauge(value float64) {
 	P.PipelineRunsTimeGauge.Set(value)
 }
-func (P *PerfPipelineRunsCollector) SetActualPipelineRunsTimeGauge(value float64){
+func (P *PerfPipelineRunsCollector) SetActualPipelineRunsTimeGauge(value float64) {
 	P.ActualPipelineRunsTimeGauge.Set(value)
 }
 
-func (P *PerfPipelineRunsCollector) DecideAndPush(metricType string, metric string, values ...float64){
+func (P *PerfPipelineRunsCollector) DecideAndPush(metricType string, metric string, values ...float64) {
 	if metricType == constants.MetricTypeGuage {
 		P.PushGuageMetric(metric, values[0])
-	}else {
+	} else {
 		P.PushCounterMetric(metric)
 	}
 }
@@ -127,7 +127,7 @@ func (P *PerfPipelineRunsCollector) PushGuageMetric(metric string, value float64
 	}
 }
 
-func (P *PerfPipelineRunsCollector) Reset(){
+func (P *PerfPipelineRunsCollector) Reset() {
 	P.PipelineRunsCreationTimeGauge.Set(0)
 	P.ActualPipelineRunsCreationTimeGauge.Set(0)
 	P.ActualPipelineRunsTimeGauge.Set(0)

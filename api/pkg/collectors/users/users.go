@@ -15,18 +15,18 @@ type PerfUserCollector struct {
 
 var (
 	SuccessfulUserCreationsCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_successful_user_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "successful_user_creations",
 		Help:      "this is the total no of successful users created during this test ",
 	})
 	FailedUserCreationsCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_failed_user_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "failed_user_creations",
 		Help:      "this is the total no of failed users created during this test",
 	})
 	UserCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_usersignup_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "usersignup_time",
 		Help:      "UserSignup Creation time Achieved",
 	})
 )
@@ -57,10 +57,10 @@ func (P *PerfUserCollector) SetUserCreationTimeGauge(value float64) {
 	P.UserCreationTimeGauge.Set(value)
 }
 
-func (P *PerfUserCollector) DecideAndPush(metricType string, metric string, values ...float64){
+func (P *PerfUserCollector) DecideAndPush(metricType string, metric string, values ...float64) {
 	if metricType == constants.MetricTypeGuage {
 		P.PushGuageMetric(metric, values[0])
-	}else {
+	} else {
 		P.PushCounterMetric(metric)
 	}
 }

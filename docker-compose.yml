@@ -1,8 +1,8 @@
-version: '3.9'
-services: 
+version: "3.9"
+services:
   perf-pushgateway-service:
     image: prom/pushgateway
-    ports: 
+    ports:
       - 9091:9091
     networks:
       - web
@@ -15,8 +15,8 @@ services:
     networks:
       - web
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
     ports:
       - 9090:9090
   grafana:

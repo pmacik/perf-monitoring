@@ -9,30 +9,30 @@ import (
 
 type PerfComponentCollector struct {
 	SuccessfulComponentCreationCounter prometheus.Counter
-	FailedComponentCreationCounter  prometheus.Counter
-	ComponentCreationTimeGauge        prometheus.Gauge
-	ActualComponentCreationTimeGauge  prometheus.Gauge
+	FailedComponentCreationCounter     prometheus.Counter
+	ComponentCreationTimeGauge         prometheus.Gauge
+	ActualComponentCreationTimeGauge   prometheus.Gauge
 }
 
 var (
 	SuccessfulComponentCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_successful_component_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "successful_component_creations",
 		Help:      "this is the total no of successful Component created during this test ",
 	})
 	FailedComponentCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_failed_component_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "failed_component_creations",
 		Help:      "this is the total no of failed Component created during this test ",
 	})
 	ComponentCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_component_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "component_creation_time",
 		Help:      "Component creation time Achieved",
 	})
 	ActualComponentCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_actual_component_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "actual_component_creation_time",
 		Help:      "Actual Component creation time Achieved",
 	})
 )
@@ -40,40 +40,40 @@ var (
 func NewPerfComponentCollector() *PerfComponentCollector {
 	return &PerfComponentCollector{
 		SuccessfulComponentCreationCounter: SuccessfulComponentCreationCounter,
-		FailedComponentCreationCounter: FailedComponentCreationCounter,
-		ComponentCreationTimeGauge: ComponentCreationTimeGauge,
-		ActualComponentCreationTimeGauge: ActualComponentCreationTimeGauge,
+		FailedComponentCreationCounter:     FailedComponentCreationCounter,
+		ComponentCreationTimeGauge:         ComponentCreationTimeGauge,
+		ActualComponentCreationTimeGauge:   ActualComponentCreationTimeGauge,
 	}
 }
 
 func (P *PerfComponentCollector) GetCollectors() []prometheus.Collector {
 	var result []prometheus.Collector
 	result = append(result, P.FailedComponentCreationCounter,
-		 P.SuccessfulComponentCreationCounter,
-		 P.ComponentCreationTimeGauge,
-		 P.ActualComponentCreationTimeGauge)
+		P.SuccessfulComponentCreationCounter,
+		P.ComponentCreationTimeGauge,
+		P.ActualComponentCreationTimeGauge)
 	return result
 }
 
-func (P *PerfComponentCollector) IncSuccessfulComponentCreationCounter(){
+func (P *PerfComponentCollector) IncSuccessfulComponentCreationCounter() {
 	P.SuccessfulComponentCreationCounter.Inc()
 }
 
-func (P *PerfComponentCollector) IncFailedComponentCreationCounter(){
+func (P *PerfComponentCollector) IncFailedComponentCreationCounter() {
 	P.FailedComponentCreationCounter.Inc()
 }
 
-func (P *PerfComponentCollector) SetComponentCreationTimeGauge(value float64){
+func (P *PerfComponentCollector) SetComponentCreationTimeGauge(value float64) {
 	P.ComponentCreationTimeGauge.Set(value)
 }
-func (P *PerfComponentCollector) SetActualComponentCreationTimeGauge(value float64){
+func (P *PerfComponentCollector) SetActualComponentCreationTimeGauge(value float64) {
 	P.ActualComponentCreationTimeGauge.Set(value)
 }
 
-func (P *PerfComponentCollector) DecideAndPush(metricType string, metric string, values ...float64){
+func (P *PerfComponentCollector) DecideAndPush(metricType string, metric string, values ...float64) {
 	if metricType == constants.MetricTypeGuage {
 		P.PushGuageMetric(metric, values[0])
-	}else {
+	} else {
 		P.PushCounterMetric(metric)
 	}
 }
@@ -100,7 +100,7 @@ func (P *PerfComponentCollector) PushGuageMetric(metric string, value float64) {
 	}
 }
 
-func (P *PerfComponentCollector) Reset(){
+func (P *PerfComponentCollector) Reset() {
 	P.ComponentCreationTimeGauge.Set(0)
 	P.ActualComponentCreationTimeGauge.Set(0)
 }

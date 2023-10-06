@@ -9,30 +9,30 @@ import (
 
 type PerfCDQCollector struct {
 	SuccessfulCDQCreationCounter prometheus.Counter
-	FailedCDQCreationCounter  prometheus.Counter
-	CDQCreationTimeGauge        prometheus.Gauge
-	ActualCDQCreationTimeGauge  prometheus.Gauge
+	FailedCDQCreationCounter     prometheus.Counter
+	CDQCreationTimeGauge         prometheus.Gauge
+	ActualCDQCreationTimeGauge   prometheus.Gauge
 }
 
 var (
 	SuccessfulCDQCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_successful_CDQ_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "successful_CDQ_creations",
 		Help:      "this is the total no of successful CDQ created during this test ",
 	})
 	FailedCDQCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_failed_CDQ_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "failed_CDQ_creations",
 		Help:      "this is the total no of failed CDQ created during this test ",
 	})
 	CDQCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_CDQ_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "CDQ_creation_time",
 		Help:      "CDQ creation time Achieved",
 	})
 	ActualCDQCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_actual_CDQ_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "actual_CDQ_creation_time",
 		Help:      "Actual CDQ creation time Achieved",
 	})
 )
@@ -40,40 +40,40 @@ var (
 func NewPerfCDQCollector() *PerfCDQCollector {
 	return &PerfCDQCollector{
 		SuccessfulCDQCreationCounter: SuccessfulCDQCreationCounter,
-		FailedCDQCreationCounter: FailedCDQCreationCounter,
-		CDQCreationTimeGauge: CDQCreationTimeGauge,
-		ActualCDQCreationTimeGauge: ActualCDQCreationTimeGauge,
+		FailedCDQCreationCounter:     FailedCDQCreationCounter,
+		CDQCreationTimeGauge:         CDQCreationTimeGauge,
+		ActualCDQCreationTimeGauge:   ActualCDQCreationTimeGauge,
 	}
 }
 
 func (P *PerfCDQCollector) GetCollectors() []prometheus.Collector {
 	var result []prometheus.Collector
 	result = append(result, P.FailedCDQCreationCounter,
-		 P.SuccessfulCDQCreationCounter,
-		 P.CDQCreationTimeGauge,
-		 P.ActualCDQCreationTimeGauge)
+		P.SuccessfulCDQCreationCounter,
+		P.CDQCreationTimeGauge,
+		P.ActualCDQCreationTimeGauge)
 	return result
 }
 
-func (P *PerfCDQCollector) IncSuccessfulCDQCreationCounter(){
+func (P *PerfCDQCollector) IncSuccessfulCDQCreationCounter() {
 	P.SuccessfulCDQCreationCounter.Inc()
 }
 
-func (P *PerfCDQCollector) IncFailedCDQCreationCounter(){
+func (P *PerfCDQCollector) IncFailedCDQCreationCounter() {
 	P.FailedCDQCreationCounter.Inc()
 }
 
-func (P *PerfCDQCollector) SetCDQCreationTimeGauge(value float64){
+func (P *PerfCDQCollector) SetCDQCreationTimeGauge(value float64) {
 	P.CDQCreationTimeGauge.Set(value)
 }
-func (P *PerfCDQCollector) SetActualCDQCreationTimeGauge(value float64){
+func (P *PerfCDQCollector) SetActualCDQCreationTimeGauge(value float64) {
 	P.ActualCDQCreationTimeGauge.Set(value)
 }
 
-func (P *PerfCDQCollector) DecideAndPush(metricType string, metric string, values ...float64){
+func (P *PerfCDQCollector) DecideAndPush(metricType string, metric string, values ...float64) {
 	if metricType == constants.MetricTypeGuage {
 		P.PushGuageMetric(metric, values[0])
-	}else {
+	} else {
 		P.PushCounterMetric(metric)
 	}
 }
@@ -100,7 +100,7 @@ func (P *PerfCDQCollector) PushGuageMetric(metric string, value float64) {
 	}
 }
 
-func (P *PerfCDQCollector) Reset(){
+func (P *PerfCDQCollector) Reset() {
 	P.CDQCreationTimeGauge.Set(0)
 	P.ActualCDQCreationTimeGauge.Set(0)
 }

@@ -9,30 +9,30 @@ import (
 
 type PerfIntegrationTestSenarioCollector struct {
 	SuccessfulIntegrationTestSenarioCreationCounter prometheus.Counter
-	FailedIntegrationTestSenarioCreationCounter  prometheus.Counter
-	IntegrationTestSenarioCreationTimeGauge        prometheus.Gauge
-	ActualIntegrationTestSenarioCreationTimeGauge  prometheus.Gauge
+	FailedIntegrationTestSenarioCreationCounter     prometheus.Counter
+	IntegrationTestSenarioCreationTimeGauge         prometheus.Gauge
+	ActualIntegrationTestSenarioCreationTimeGauge   prometheus.Gauge
 }
 
 var (
 	SuccessfulIntegrationTestSenarioCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_successful_IntegrationTestSenario_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "successful_IntegrationTestSenario_creations",
 		Help:      "this is the total no of successful IntegrationTestSenario created during this test ",
 	})
 	FailedIntegrationTestSenarioCreationCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_failed_IntegrationTestSenario_creations",
+		Namespace: "RHTAP-loadtest",
+		Name:      "failed_IntegrationTestSenario_creations",
 		Help:      "this is the total no of failed IntegrationTestSenario created during this test ",
 	})
 	IntegrationTestSenarioCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_IntegrationTestSenario_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "IntegrationTestSenario_creation_time",
 		Help:      "IntegrationTestSenario creation time Achieved",
 	})
 	ActualIntegrationTestSenarioCreationTimeGauge = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "Loadtests",
-		Name:      "loadtest_actual_IntegrationTestSenario_creation_time",
+		Namespace: "RHTAP-loadtest",
+		Name:      "actual_IntegrationTestSenario_creation_time",
 		Help:      "Actual IntegrationTestSenario creation time Achieved",
 	})
 )
@@ -40,40 +40,40 @@ var (
 func NewPerfIntegrationTestSenarioCollector() *PerfIntegrationTestSenarioCollector {
 	return &PerfIntegrationTestSenarioCollector{
 		SuccessfulIntegrationTestSenarioCreationCounter: SuccessfulIntegrationTestSenarioCreationCounter,
-		FailedIntegrationTestSenarioCreationCounter: FailedIntegrationTestSenarioCreationCounter,
-		IntegrationTestSenarioCreationTimeGauge: IntegrationTestSenarioCreationTimeGauge,
-		ActualIntegrationTestSenarioCreationTimeGauge: ActualIntegrationTestSenarioCreationTimeGauge,
+		FailedIntegrationTestSenarioCreationCounter:     FailedIntegrationTestSenarioCreationCounter,
+		IntegrationTestSenarioCreationTimeGauge:         IntegrationTestSenarioCreationTimeGauge,
+		ActualIntegrationTestSenarioCreationTimeGauge:   ActualIntegrationTestSenarioCreationTimeGauge,
 	}
 }
 
 func (P *PerfIntegrationTestSenarioCollector) GetCollectors() []prometheus.Collector {
 	var result []prometheus.Collector
 	result = append(result, P.FailedIntegrationTestSenarioCreationCounter,
-		 P.SuccessfulIntegrationTestSenarioCreationCounter,
-		 P.IntegrationTestSenarioCreationTimeGauge,
-		 P.ActualIntegrationTestSenarioCreationTimeGauge)
+		P.SuccessfulIntegrationTestSenarioCreationCounter,
+		P.IntegrationTestSenarioCreationTimeGauge,
+		P.ActualIntegrationTestSenarioCreationTimeGauge)
 	return result
 }
 
-func (P *PerfIntegrationTestSenarioCollector) IncSuccessfulIntegrationTestSenarioCreationCounter(){
+func (P *PerfIntegrationTestSenarioCollector) IncSuccessfulIntegrationTestSenarioCreationCounter() {
 	P.SuccessfulIntegrationTestSenarioCreationCounter.Inc()
 }
 
-func (P *PerfIntegrationTestSenarioCollector) IncFailedIntegrationTestSenarioCreationCounter(){
+func (P *PerfIntegrationTestSenarioCollector) IncFailedIntegrationTestSenarioCreationCounter() {
 	P.FailedIntegrationTestSenarioCreationCounter.Inc()
 }
 
-func (P *PerfIntegrationTestSenarioCollector) SetIntegrationTestSenarioCreationTimeGauge(value float64){
+func (P *PerfIntegrationTestSenarioCollector) SetIntegrationTestSenarioCreationTimeGauge(value float64) {
 	P.IntegrationTestSenarioCreationTimeGauge.Set(value)
 }
-func (P *PerfIntegrationTestSenarioCollector) SetActualIntegrationTestSenarioCreationTimeGauge(value float64){
+func (P *PerfIntegrationTestSenarioCollector) SetActualIntegrationTestSenarioCreationTimeGauge(value float64) {
 	P.ActualIntegrationTestSenarioCreationTimeGauge.Set(value)
 }
 
-func (P *PerfIntegrationTestSenarioCollector) DecideAndPush(metricType string, metric string, values ...float64){
+func (P *PerfIntegrationTestSenarioCollector) DecideAndPush(metricType string, metric string, values ...float64) {
 	if metricType == constants.MetricTypeGuage {
 		P.PushGuageMetric(metric, values[0])
-	}else {
+	} else {
 		P.PushCounterMetric(metric)
 	}
 }
@@ -100,7 +100,7 @@ func (P *PerfIntegrationTestSenarioCollector) PushGuageMetric(metric string, val
 	}
 }
 
-func (P *PerfIntegrationTestSenarioCollector) Reset(){
+func (P *PerfIntegrationTestSenarioCollector) Reset() {
 	P.IntegrationTestSenarioCreationTimeGauge.Set(0)
 	P.ActualIntegrationTestSenarioCreationTimeGauge.Set(0)
 }
